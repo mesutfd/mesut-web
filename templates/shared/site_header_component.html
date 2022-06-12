@@ -1,0 +1,124 @@
+{% load thumbnail %}
+<header id="header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> 80 21 24 36 98+ </a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <!-- <div class="col-sm-4 header-middle-menu">
+                    <div class="shop-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> پرداخت</a></li>
+                        </ul>
+                    </div>
+                </div> -->
+
+                <div class="col-sm-4" style="text-align: left;">
+                    <div class="logo">
+                        <a href="{% url 'home_page' %}">
+                            {% thumbnail site_setting.site_logo '145x50' quality=100 crop=center as im %}
+                                <img src="{{ im.url }}"
+                                     style="text-align: center;"/>
+                            {% endthumbnail %}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-8 header-middle-menu">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <li><a href="/god-mode/"><i class="fa fa-user"></i> پنل ادمین</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'user_basket_page' %}"><i class="fa fa-shopping-cart"></i> سبد خرید</a></li>
+                                <li><a href="{% url 'user_panel_dashboard' %}"><i class="fa fa-user"></i>
+                                    {% if request.user.first_name %}
+                                        سلام {{ request.user.first_name }} عزیز
+                                    {% else %}
+                                        سلام {{ request.user }} عزیز
+                                    {% endif %}
+                                </a></li>
+                                <li><a href="{% url 'logout_page' %}"><i class="fa fa-sign-out"></i> خروج</a></li>
+                            {% else %}
+                                <li><a href="{% url 'register_page' %}"><i class="fa fa-user-plus"></i> ثبت نام</a></li>
+                                <li><a href="{% url 'login_page' %}"><i class="fa fa-sign-in"></i> ورود</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <div class="search_box pull-left">
+                        <input type="text" placeholder="جستـجو"/>
+                    </div>
+                </div>
+
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="mainmenu pull-right">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="{% url 'home_page' %}"
+                                   class="{% if request.resolver_match.url_name == 'home_page' %}active{% endif %}">
+                                خـانه
+                            </a></li>
+                            <li><a href="{% url 'product-list' %}"
+                                   class="{% if request.resolver_match.url_name == 'product-list' %}active{% endif %}">محصولات<i
+                                    class="fa "></i></a>
+                            </li>
+                            <li><a href="{% url 'articles_list' %}"
+                                   class="{% if request.resolver_match.url_name == 'articles_list' %}active{% endif %}">مقالات</a>
+                            </li>
+                            <li><a href="{% url 'about_page' %}"
+                                   class="{% if request.resolver_match.url_name == 'about_page' %}active{% endif %}">درباره
+                                مـا</a></li>
+                            <li><a href="{% url 'contact_us_page' %}"
+                                   class="{% if request.resolver_match.url_name == 'contact_us_page' %}active{% endif %}">تماس
+                                با مـا</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->
