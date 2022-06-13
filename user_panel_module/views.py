@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
 
-from order_module.models import Order
+from order_module.models import Order, OrderDetail
 from .forms import *
 
 from account_module.models import User
@@ -73,9 +73,7 @@ class ChangePasswordPage(View):
 
 def user_basket(request: HttpRequest):
     current_order, created = Order.objects.get_or_create(is_paid=False, user_id=request.user.id)
-    total_amount = 0
-    for order_detail in current_order.orderdetail_set.all():
-        total_amount += order_detail.product.price * order_detail.count
+    total_amount = current_order.calculate_total_price()
 
     context = {
         'order': current_order,
@@ -90,19 +88,21 @@ def remove_order_detail(request: HttpRequest):
         return JsonResponse({
             'status': 'not_found_detail_id'
         })
-    current_order, created = Order.objects.get_or_create(is_paid=False, user_id=request.user.id)
 
-    detail = current_order.orderdetail_set.filter(id=detail_id).first()
-    if detail is None:
+    deleted_count, deleted_dict = OrderDetail.objects.filter(
+        id=detail_id,
+        order__is_paid=False,
+        order__user_id=request.user.id,
+    ).delete()
+
+    if deleted_count == 0:
         return JsonResponse({
             'status': 'detail_not_found',
         })
-    detail.delete()
+
     current_order, created = Order.objects.get_or_create(is_paid=False, user_id=request.user.id)
 
-    total_amount = 0
-    for order_detail in current_order.orderdetail_set.all():
-        total_amount += order_detail.product.price * order_detail.count
+    total_amount = current_order.calculate_total_price()
 
     context = {
         'order': current_order,
