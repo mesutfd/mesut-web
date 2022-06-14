@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'djangoProject1.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 AUTH_USER_MODEL = 'account_module.User'
+LOGIN_URL = '/login'
 
 DATABASES = {
     'default': {

@@ -1,22 +1,24 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView
-
 from order_module.models import Order, OrderDetail
 from .forms import *
-
 from account_module.models import User
 from .forms import EditProfileModelForm
 
 
+@method_decorator(login_required, name='dispatch')
 class UserPanelDashboardPage(TemplateView):
     template_name = 'user_panel_module/user_panel_dashboard_page.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class EditUserProfilePage(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
@@ -39,10 +41,12 @@ class EditUserProfilePage(View):
         return render(request, 'user_panel_module/edit_profile_page.html', context)
 
 
+@login_required(login_url='login_page')
 def user_panel_menu_component(request: HttpRequest):
     return render(request, 'user_panel_module/components/user_panel_menu_component.html')
 
 
+@method_decorator(login_required, name='dispatch')
 class ChangePasswordPage(View):
     def get(self, request: HttpRequest):
         current_user: User = User.objects.filter(id=request.user.id).first()
@@ -71,8 +75,10 @@ class ChangePasswordPage(View):
         return render(request, 'user_panel_module/change_password_page.html', context)
 
 
+@login_required(login_url='login_page')
 def user_basket(request: HttpRequest):
-    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
+                                                                                             user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
 
     context = {
@@ -82,6 +88,7 @@ def user_basket(request: HttpRequest):
     return render(request, 'user_panel_module/user_basket.html', context)
 
 
+@login_required(login_url='login_page')
 def remove_order_detail(request: HttpRequest):
     detail_id = request.GET.get('detail_id')
     if detail_id is None:
@@ -115,6 +122,7 @@ def remove_order_detail(request: HttpRequest):
     })
 
 
+@login_required(login_url='login_page')
 def change_order_detail_count(request: HttpRequest):
     detail_id = request.GET.get('detail_id')
     state = request.GET.get('state')
@@ -122,7 +130,8 @@ def change_order_detail_count(request: HttpRequest):
         return JsonResponse({
             'status': 'not_found_detail_or_state'
         })
-    order_detail = OrderDetail.objects.filter(id=detail_id, order__is_paid=False, order__user_id=request.user.id).first()
+    order_detail = OrderDetail.objects.filter(id=detail_id, order__is_paid=False,
+                                              order__user_id=request.user.id).first()
 
     if order_detail is None:
         return JsonResponse({
@@ -143,7 +152,8 @@ def change_order_detail_count(request: HttpRequest):
             'status': 'state_invalid',
         })
 
-    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
+                                                                                             user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
 
     context = {
