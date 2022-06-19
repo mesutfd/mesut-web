@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal apps
     'account_module',
+    'admin_panel',
     'home_module',
     'product_module',
     'contact_module',
