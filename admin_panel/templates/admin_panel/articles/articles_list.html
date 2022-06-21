@@ -1,1 +1,9 @@
 {% extends 'admin_panel/shared/_admin_layout.html' %}
+
+{% block title %}
+    {% if request.user.is_authenticated %}
+        پنل مدیریت |  {{ request.user }}
+    {% else %}
+        پنل مدیریتی
+    {% endif %}
+{% endblock %}

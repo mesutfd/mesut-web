@@ -54,6 +54,7 @@
                             {% if request.user.is_authenticated %}
                                 {% if request.user.is_superuser %}
                                     <li><a href="/god-mode/"><i class="fa fa-user"></i> پنل ادمین</a></li>
+                                    <li><a href="{% url 'super-admin-panel' %}"><i class="fa fa-user"></i> پنل سوپر ادمین</a></li>
                                 {% endif %}
                                 <li><a href="{% url 'user_basket_page' %}"><i class="fa fa-shopping-cart"></i> سبد خرید</a></li>
                                 <li><a href="{% url 'user_panel_dashboard' %}"><i class="fa fa-user"></i>
