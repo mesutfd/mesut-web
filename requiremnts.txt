@@ -1,0 +1,8 @@
+asgiref==3.5.0
+Django==3.0.14
+django-binary-database-files==1.0.10
+pytz==2022.1
+six==1.16.0
+sorl-thumbnail==12.8.0
+sqlparse==0.4.2
+tzdata==2022.1
