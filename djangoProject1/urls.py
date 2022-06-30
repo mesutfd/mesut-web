@@ -21,7 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('', include('home_module.urls')),
     path('', include('account_module.urls')),
-    path('', include('admin_panel.urls')),
+    path('super-god-mode/', include('admin_panel.urls')),
     path('articles/', include('article_module.urls')),
     path('contact-us/', include('contact_module.urls')),
     path('products/', include('product_module.urls')),

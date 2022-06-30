@@ -1,0 +1,73 @@
+{% extends 'admin_panel/shared/_admin_layout.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+    مدیریت مقالات
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">جدول ریسپانسیو</h3>
+
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>شماره</th>
+                            <th>کاربر</th>
+                            <th>تاریخ</th>
+                            <th>وضعیت</th>
+                            <th>دلیل</th>
+                        </tr>
+                        {% for article in article_list %}
+                            <tr>
+                                <td>{{ article.id }}</td>
+                                <td>{{ article.title }}</td>
+                                <td>{{ article.create_date | show_jalali_date }}</td>
+                                <td>
+                                    <a class="btn btn-app" href=" {% url 'article-edit-page' pk=article.id %}">
+                                        <i class="fa fa-edit"></i>
+                                        ویرایش
+                                    </a>
+                                </td>
+                                <td>{{ article.short_description }}</td>
+                                <td>
+                                    {% thumbnail article.image "120x100" quality=95 crop='center' as im %}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}</td>
+                            </tr>
+
+                        {% endfor %}
+                        <ul class="pagination pagination-sm m-0 float-right">
+{% for pageNum in paginator.page_range %}
+                      <li class="page-item"><a class="page-link" href="#">«</a></li>
+
+
+{% endfor %}
+
+                </ul>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+{% endblock %}

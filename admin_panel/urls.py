@@ -2,5 +2,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('super-god-mode/', all_articles, name='super-admin-panel')
+    path('', index, name='super-admin-panel'),
+    path('articles/', ArticlesListView.as_view(), name='article-edit-list'),
+    path('articles/edit/<pk>', ArticleEditPage.as_view(), name='article-edit-page'),
 ]
