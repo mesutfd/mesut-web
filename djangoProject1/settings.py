@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'order_module',
     'polls',
     'user_panel_module',
+    'stripe_payment_module',
     # external apps
     'django_render_partial',
     'sorl.thumbnail',
     'jalali_date',
+
 
 ]
 
@@ -182,3 +184,7 @@ JALALI_DATE_DEFAULTS = {
         }
     },
 }
+
+STRIPE_PUBLIC_KEY = ""
+STRIPE_SECRET_KEY = ""
+STRIPE_WEBHOOK_SECRET = ""

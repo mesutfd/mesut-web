@@ -26,6 +26,9 @@ class ProductBrand(models.Model):
     url_title = models.CharField(max_length=700, verbose_name='نام برند در url', db_index=True)
     is_active = models.BooleanField(verbose_name='فعال / غیرفعال')
 
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
+
     class Meta:
         verbose_name = 'برند'
         verbose_name_plural = 'برند ها'
@@ -49,6 +52,10 @@ class Product(models.Model):
                             verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name='فعال / غیرفعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / نشده')
+    file = models.FileField(upload_to="product_files/", blank=True, null=True)
+
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
 
     def get_absolute_url(self):
         return reverse('product-detail', args=[self.slug])
@@ -80,7 +87,8 @@ class ProductTag(models.Model):
 class ProductVisit(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, editable=False, verbose_name='محصول')
     ip = models.CharField(max_length=30, editable=False, verbose_name='آی پی بازدید کننده')
-    user = models.ForeignKey(User, editable=False, null=True, blank=True, on_delete=models.CASCADE, verbose_name='کاربر بازدید کننده')
+    user = models.ForeignKey(User, editable=False, null=True, blank=True, on_delete=models.CASCADE,
+                             verbose_name='کاربر بازدید کننده')
 
     def __str__(self):
         return f'{self.product.title} / {self.ip}'
@@ -88,6 +96,7 @@ class ProductVisit(models.Model):
     class Meta:
         verbose_name = 'بازدید محصول'
         verbose_name_plural = 'بازدید های محصول'
+
 
 class ProductGallery(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
