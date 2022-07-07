@@ -1,22 +1,20 @@
-from django.shortcuts import render
-
-# Create your views here.
-
 import json
+
 import stripe
-from django.core.mail import send_mail
 from django.conf import settings
-from django.views.generic import TemplateView
-from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
+
 from product_module.models import Product
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class SuccessView(TemplateView):
-    template_name = "stripe_payment_module/success.html"
+    template_name = "stripe_payment_module/chek_payment.html"
 
 
 class CancelView(TemplateView):
@@ -27,7 +25,7 @@ class ProductLandingPageView(TemplateView):
     template_name = "stripe_payment_module/landing.html"
 
     def get_context_data(self, **kwargs):
-        product = Product.objects.get(name="Test Product")
+        product = Product.objects.get(title="Asus Rog Zphyrus")
         context = super(ProductLandingPageView, self).get_context_data(**kwargs)
         context.update({
             "product": product,
@@ -63,6 +61,7 @@ class CreateCheckoutSessionView(View):
             success_url=YOUR_DOMAIN + '/success/',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
+        print(checkout_session.id)
         return JsonResponse({
             'id': checkout_session.id
         })
@@ -100,8 +99,6 @@ def stripe_webhook(request):
             recipient_list=[customer_email],
             from_email="matt@test.com"
         )
-
-
 
     elif event["type"] == "payment_intent.succeeded":
         intent = event['data']['object']

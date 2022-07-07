@@ -181,7 +181,7 @@ button:disabled {
       <button type="button" id="checkout-button">Checkout</button>
       <hr />
       <h2>Checkout using custom payment flow</h2>
-      <form id="payment-form">
+      <form id="payment-form" action="{% url 'landing-page' %}">
         <input type="text" id="email" placeholder="Email address" />
         <div id="card-element"><!--Stripe.js injects the Card Element--></div>
         <button id="submit">
