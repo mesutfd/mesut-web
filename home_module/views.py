@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.http import HttpRequest
 from django.shortcuts import render
 
 from product_module.models import Product, ProductCategory
@@ -68,3 +69,7 @@ class AboutView(TemplateView):
         site_setting: SiteSetting = SiteSetting.objects.filter(is_main_setting=True).first()
         context['site_setting'] = site_setting
         return context
+
+
+def payment_page_test(request: HttpRequest):
+    return render(request, 'shared/page.html', {})

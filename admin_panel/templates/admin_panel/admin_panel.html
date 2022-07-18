@@ -7,6 +7,9 @@
         پنل مدیریتی
     {% endif %}
 {% endblock %}
+{% block admin_panel_aside %}
+        {% include 'admin_panel/includes/admin_panel_aside.html' %}
+{% endblock %}
 
 {% block content %}
     {% include 'admin_panel/includes/article_page_component.html' %}

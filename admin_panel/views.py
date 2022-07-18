@@ -1,9 +1,11 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import UpdateView, ListView
 
 from article_module.models import Article
+HttpResponse
+
 
 
 def index(request: HttpRequest):

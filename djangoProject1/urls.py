@@ -29,6 +29,7 @@ urlpatterns = [
     path('order/', include('order_module.urls')),
     path('god-mode/', admin.site.urls),
     path('user/', include('user_panel_module.urls')),
+    path('charisma/', include('charisma_product_module.urls')),
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

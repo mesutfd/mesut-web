@@ -27,6 +27,7 @@
         <option value="$MODULE_DIR$/user_panel_module/templates" />
         <option value="$MODULE_DIR$/product_module/templates" />
         <option value="$MODULE_DIR$/admin_panel/templates" />
+        <option value="$MODULE_DIR$/charisma_product_module/templates" />
       </list>
     </option>
   </component>

@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
 
 from order_module.models import Order, OrderDetail
-from product_module.models import Product
+from charisma_product_module.models import Product
 
 
 # Create your views here.

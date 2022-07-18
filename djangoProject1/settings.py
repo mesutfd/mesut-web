@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'article_module',
     'site_module',
     'order_module',
+    'charisma_product_module',
     'polls',
     'user_panel_module',
     'stripe_payment_module',
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'django_render_partial',
     'sorl.thumbnail',
     'jalali_date',
+    # 'jet.dashboard',
+    # 'jet',
 
 ]
 

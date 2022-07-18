@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, JsonResponse
@@ -11,6 +13,8 @@ from order_module.models import Order, OrderDetail
 from .forms import *
 from account_module.models import User
 from .forms import EditProfileModelForm
+import datetime
+from jalali_date import datetime2jalali
 
 
 @method_decorator(login_required, name='dispatch')
@@ -158,6 +162,30 @@ def change_order_detail_count(request: HttpRequest):
 
     context = {
         'order': current_order,
-        'sum': total_amount
+        'sum': total_amount,
     }
     return render(request, 'user_panel_module/user_basket_content.html', context)
+
+
+def order_payment_success(request, order_id):
+    succeed_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(
+        is_paid=False,
+        user_id=request.user.id)
+    current_date = datetime.datetime.now()
+    OrderDetail.objects.filter(order_id=order_id).update(payment_date=current_date)
+    total_amount = succeed_order.calculate_total_price()
+    total_amount_no_tax = succeed_order.calculate_total_price_no_tax()
+    total_tax = succeed_order.total_tax()
+    currentime = datetime.datetime.now()
+    time = int(currentime.strftime('%H'))
+    print(type(time))
+
+    context = {
+        'order': succeed_order,
+        'jalali_date': current_date,
+        'sum': total_amount,
+        'sum_no_tax': total_amount_no_tax,
+        'total_tax': total_tax,
+        'time': time
+    }
+    return render(request, 'user_panel_module/payment_success_page.html', context)

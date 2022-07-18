@@ -8,4 +8,5 @@ urlpatterns = [
     path('user-basket', user_basket, name='user_basket_page'),
     path('remove-order-detail', remove_order_detail, name='remove_order_detail_ajax'),
     path('change-order-detail', change_order_detail_count, name='change_order_detail_count_ajax'),
+    path('success/<order_id>', order_payment_success, name='payment_success_page'),
 ]
