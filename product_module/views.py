@@ -65,13 +65,15 @@ class ProductDetailView(DetailView):
             is_active=True,
         )
         user_ip = get_client_ip(self.request)
+        print(user_ip)
         if self.request.user.is_authenticated:
             user_id = self.request.user.id
         has_been_visited = ProductVisit.objects.filter(ip__iexact=user_ip, product_id=loaded_product.id).exists()
         if not has_been_visited:
             new_visit = ProductVisit(product_id=loaded_product.id, user_id=user_id, ip=user_ip)
             new_visit.save()
-            context['product_galleries_group'] = group_list(list(ProductGallery.objects.filter(product_id=loaded_product.id).all()), 3)
+            context['product_galleries_group'] = group_list(
+                list(ProductGallery.objects.filter(product_id=loaded_product.id).all()), 3)
         return context
 
 
